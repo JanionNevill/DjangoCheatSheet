@@ -76,11 +76,6 @@
       }
   }
    ```
-- Enable nginx configuration
-  - `sudo ln -s /etc/nginx/sites-available/<project_name> /etc/nginx/sites-enabled`
-  - Test the configuration: `sudo nginx -t`
-- Start the nginx service
-  - `sudo systemctl restart nginx`
 - Create gunicorn socket
   - `sudo nano /etc/systemd/system/gunicorn.socket`
   - Write this to the file:
@@ -106,18 +101,22 @@
   [Service]
   User=<user_name>
   Group=www-data
-  WorkingDirectory=/home/<user_name>/django_project
+  WorkingDirectory=/home/<user_name>/<project_name>
   ExecStart=/home/<user_name>/<project_name>/.venv/bin/gunicorn --workers 3 --bind unix:/run/gunicorn.sock conf.wsgi:application
   
   [Install]
   WantedBy=multi-user.target
   ```
-- Start and enable the gunicorn service
-  - `sudo systemctl start gunicorn`
-  - `sudo systemctl enable gunicorn`
-  - `sudo systemctl enable gunicorn.socket`
 - Copy static files to servable location
   - `sudo mkdir /var/www/<project_name>`
   - `sudo cp -r staticfiles /var/www/<project_name>/staticfiles`
+- Enable nginx configuration
+  - `sudo ln -s /etc/nginx/sites-available/<project_name> /etc/nginx/sites-enabled`
+  - Test the configuration: `sudo nginx -t`
+- Enable the gunicorn service
+  - `sudo systemctl enable gunicorn`
+  - `sudo systemctl enable gunicorn.socket`
+- Restart the server
+  - `sudo shutdown --reboot now`
 - Go to server IP address in browser
-  - Website should appear as expected
+  - The website should appear as expected

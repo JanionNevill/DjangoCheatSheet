@@ -31,6 +31,7 @@
       ]
       ```
     - `<app_path>` is the relative url to the view, ending in `/`, but not starting with '/'
+      - eg. `""`, `"accounts/"`, `"blog/"`, etc.
     - Adding the `name` parameter is optional, but recommended
 - Create view
   - In `<app_name>/views.py` add:
