@@ -65,7 +65,7 @@
       server_name <server_ip_address>;
   
       location / {
-          proxy_pass http://127.0.0.1:8000;
+          proxy_pass http://unix:/run/gunicorn.sock;
           proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -81,30 +81,43 @@
   - Test the configuration: `sudo nginx -t`
 - Start the nginx service
   - `sudo systemctl restart nginx`
-- Create gunicorn configuration
+- Create gunicorn socket
+  - `sudo nano /etc/systemd/system/gunicorn.socket`
+  - Write this to the file:
+  ```
+  [Unit]
+  Description=gunicorn socket
+  
+  [Socket]
+  ListenStream=/run/gunicorn.sock
+  
+  [Install]
+  WantedBy=sockets.target
+  ```
+- Create gunicorn service
   - `sudo nano /etc/systemd/system/gunicorn.service`
   - Write this to the file:
   ```
   [Unit]
   Description=gunicorn daemon for Django
+  Requires=gunicorn.socket
   After=network.target
   
   [Service]
   User=<user_name>
   Group=www-data
-  WorkingDirectory=/home/<user_name>/django_project/mysite
-  ExecStart=/home/<user_name>/<project_name>/.venv/bin/gunicorn --workers 3 --bind unix:/home/<user_name>/<project_name>/conf.sock conf.wsgi:application
+  WorkingDirectory=/home/<user_name>/django_project
+  ExecStart=sudo /home/<user_name>/<project_name>/.venv/bin/gunicorn --workers 3 --bind unix:/run/gunicorn.sock conf.wsgi:application
   
   [Install]
   WantedBy=multi-user.target
-  Start and enable the service:
-  sudo systemctl start gunicorn
-  sudo systemctl enable gunicorn
   ```
+- Start and enable the gunicorn service
+  - `sudo systemctl start gunicorn`
+  - `sudo systemctl enable gunicorn`
+  - `sudo systemctl enable gunicorn.socket`
 - Copy static files to servable location
   - `sudo mkdir /var/www/<project_name>`
   - `sudo cp -r staticfiles /var/www/<project_name>/staticfiles`
-- Launch gunicorn
-  - `gunicorn conf.wsgi:application --bind 0.0.0.0:8000`
 - Go to server IP address in browser
   - Website should appear as expected

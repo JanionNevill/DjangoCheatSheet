@@ -23,6 +23,7 @@
 - Add view URL path
   - In `<app_name>/urls.py` add:
     - ```
+      from django.urls import path
       from .views import <view_class>
     
       urlpatterns = [
@@ -39,10 +40,10 @@
       class HomeView(TemplateView):
           template_name = "templates/<app_name>/home.html
 
-      def get_context_data(self, **kwargs):
-          context = super().get_context_data(**kwargs)
-          context["name"] = "Sherlock"
-          return context
+          def get_context_data(self, **kwargs):
+              context = super().get_context_data(**kwargs)
+              context["name"] = "Sherlock"
+              return context
       ```
 - Create template
   - In `templates/<app_name>/home.html`
@@ -87,7 +88,7 @@
           ]
               
       admin.site.register(Article, ArticleAdmin)
-    ```
+      ```
 - Create migrations
   - `python manage.py makemigrations <app_name>`
 - Apply migrations
