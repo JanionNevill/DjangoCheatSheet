@@ -107,7 +107,7 @@
   User=<user_name>
   Group=www-data
   WorkingDirectory=/home/<user_name>/django_project
-  ExecStart=sudo /home/<user_name>/<project_name>/.venv/bin/gunicorn --workers 3 --bind unix:/run/gunicorn.sock conf.wsgi:application
+  ExecStart=/home/<user_name>/<project_name>/.venv/bin/gunicorn --workers 3 --bind unix:/run/gunicorn.sock conf.wsgi:application
   
   [Install]
   WantedBy=multi-user.target
