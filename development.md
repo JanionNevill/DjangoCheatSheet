@@ -95,7 +95,7 @@
 - Apply migrations
   - `python manage.py migrate`
 
-## Run the test server
+## Run the development server
 `python manage.py runserver`
 
 Not to be used in a production environment!
