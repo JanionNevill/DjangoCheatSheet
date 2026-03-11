@@ -7,7 +7,7 @@
 - Collect dependencies
   - `python -m pip feeze > requirements.txt`
 - Edit `<project_name>/conf/settings.py`
-  ```
+  ```python
   ...
   INSTALLED_APPS = [
     ...
@@ -58,7 +58,7 @@
   - The secret key used in development is not suitable for production since it has been published in the repo
   - `python -c 'import secrets; print(secrets.token_urlsafe())'`
 - Edit `<project_name>/conf/settings.py`
-  ```
+  ```python
   ...
   SECRET_KEY = "<generated_key>"
   ...
@@ -107,7 +107,7 @@
   - The secret key used in development is not suitable for production since it has been published in the repo
   - `python -c 'import secrets; print(secrets.token_urlsafe())'`
 - Edit `<project_name>/conf/settings.py`
-  ```
+  ```python
   ...
   SECRET_KEY = "<generated_key>"
   ...

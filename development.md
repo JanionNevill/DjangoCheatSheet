@@ -4,7 +4,7 @@
 - `python manage.py startapp <app_name>`
 - Add to app list
   - In `conf/settings.py` add:
-    - ```
+    - ```python
       INSTALLED_APPS = [
           ...
           "<app_name>",
@@ -12,7 +12,7 @@
       ```
 - Add app URL path
   - In `conf/urls.py` add:
-    - ```
+    - ```python
       urlpatterns = [
           ...
           path("<app_path>", include("<app_name>.urls")),
@@ -22,7 +22,7 @@
 ## Creating a view
 - Add view URL path
   - In `<app_name>/urls.py` add:
-    - ```
+    - ```python
       from django.urls import path
       from .views import <view_class>
     
@@ -35,7 +35,7 @@
     - Adding the `name` parameter is optional, but recommended
 - Create view
   - In `<app_name>/views.py` add:
-    - ```
+    - ```python
       from django.views.generic import TemplateView
     
       class HomeView(TemplateView):
@@ -60,7 +60,7 @@
 ## Create database model
 - Create model
   - In `models.py` add:
-    - ```
+    - ```python
       from django.db import models
 
       class Article(models.Model):
@@ -77,7 +77,7 @@
       ```
 - Register model
   - In `<app_name>/admin.py` add:
-    - ```
+    - ```python
       from .models import Article, Comment
       
       class ArticleAdmin(admin.ModelAdmin):
