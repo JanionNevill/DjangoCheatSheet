@@ -92,6 +92,14 @@
   - Once it has completed, click the link to open the site
 
 ## Local server (Linux)
+
+> [!NOTE]
+> 
+> These steps will only serve your project on HTTP, not HTTPS. If you need the security of HTTPS, there will be extra steps required.
+> 
+> This document does not include those additional steps.
+>
+
 - Clone repo to user home directory
   - `git clone https://github.com/<github_username>/<github_repo_name> <project_name>`
   - If the `<project_name>` argument is not included, the directory will be named `<github_repo_name>`
