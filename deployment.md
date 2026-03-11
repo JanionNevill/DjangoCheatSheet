@@ -9,11 +9,6 @@
 - Edit `<project_name>/conf/settings.py`
   ```
   ...
-  DEBUG = False
-  
-  ALLOWED_HOSTS = ["localhost", "<username>.eu.pythonanywhere.com"]
-  CSRF_TRUSTED_ORIGINS = ["https://<username>.eu.pythonanywhere.com"]
-  ...
   INSTALLED_APPS = [
     ...
     "whitenoise.runserver_nostatic",
@@ -39,8 +34,6 @@
   STATICFILES_DIRS = [BASE_DIR / "static"]
   STATIC_ROOT = BASE_DIR / "staticfiles"
   ```
-- Collect the static files
-  - `python manage.py collectstatic`
 - Commit and push changes
   - `git add -A`
   - `git commit -m "Preparations for deployment"`
@@ -68,7 +61,15 @@
   ```
   ...
   SECRET_KEY = "<generated_key>"
+  ...
+  DEBUG = False
+  
+  ALLOWED_HOSTS = ["localhost", "127.0.0.1", "<username>.eu.pythonanywhere.com"]
+  CSRF_TRUSTED_ORIGINS = ["https://<username>.eu.pythonanywhere.com"]
+  ...
   ```
+- Collect the static files
+  - `python manage.py collectstatic`
 - Initialise database
   - `python manage.py migrate`
 - Create superuser
@@ -100,6 +101,8 @@
   - `python -m venv .venv`
   - `.venv` being the name fo the virtual environment
   - Activate using `source .venv/bin/activate`
+- Install requirements
+  - `python -m pip install -r requirements.txt`
 - Generate a new secure key
   - The secret key used in development is not suitable for production since it has been published in the repo
   - `python -c 'import secrets; print(secrets.token_urlsafe())'`
@@ -107,9 +110,15 @@
   ```
   ...
   SECRET_KEY = "<generated_key>"
+  ...
+  DEBUG = False
+  
+  ALLOWED_HOSTS = ["localhost", "127.0.0.1", "<server_ip_address>"]
+  CSRF_TRUSTED_ORIGINS = ["https://<server_ip_address>"]
+  ...
   ```
-- Install requirements
-  - `python -m pip install -r requirements.txt`
+- Collect the static files
+  - `python manage.py collectstatic`
 - Initialise database
   - `python manage.py migrate`
 - Create superuser
