@@ -86,6 +86,8 @@
 - Update `WSGI.py`
   - In dashboard for this deployment
   - Uncomment and edit Django example code
+    - Change path to `path = '/home/<username>/<project_name>'`
+    - Change settings module to `os.environ['DJANGO_SETTINGS_MODULE'] = 'conf.settings'`
   - Remove unused default code
 - Press "Reload" button
   - In dashboard for this deployment
