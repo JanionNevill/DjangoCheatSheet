@@ -2,6 +2,8 @@
 
 ## Preparation
 
+### Serving static files
+
 - Install dependencies
   - `python -m pip install whitenoise`
 - Collect dependencies
@@ -27,14 +29,47 @@
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage", # new
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
   }
   ...
   STATICFILES_DIRS = [BASE_DIR / "static"]
   STATIC_ROOT = BASE_DIR / "staticfiles"
   ```
-- Commit and push changes
+
+ ### Admin
+
+ - Change the admin URL to something other than the default. Edit `<project_name>/conf/urls.py`
+   ```python
+    urlpatterns = [
+      path("anything-but-admin/", admin.site.urls),
+      ...
+    ]
+    ```
+### Security settings
+
+- All of the following settings are set in `<project_name>/conf/settings.py`
+- Redirect all `http://` requests to `https://`*
+  ```python
+  SECURE_SSL_REDIRECT = env.bool("DJANGO_SECURE_SSL_REDIRECT", default=True)
+  ```
+- Enforce that browsers only use `https://`*
+  ```python
+  SECURE_HSTS_SECONDS = env.int("DJANGO_SECURE_HSTS_SECONDS", default=2592000)  # 30 days
+  SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool(
+      "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=True
+  )
+  SECURE_HSTS_PRELOAD = env.bool("DJANGO_SECURE_HSTS_PRELOAD", default=True)
+  ```
+- Enforce that session and cross-site request faking cookies are served via `https://`*
+  ```python
+  SESSION_COOKIE_SECURE = env.bool("DJANGO_SESSION_COOKIE_SECURE", default=True)
+  CSRF_COOKIE_SECURE = env.bool("DJANGO_CSRF_COOKIE_SECURE", default=True)
+  ```
+*These settings will mean that the site cannot be accessed by the development server. Best practice is to set these in a `.env` file, and set production defaults in the settings file.
+
+### Commit and push changes
+- In a console:
   - `git add -A`
   - `git commit -m "Preparations for deployment"`
   - `git push`
